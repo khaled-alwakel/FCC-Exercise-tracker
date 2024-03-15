@@ -90,10 +90,16 @@ app.get ('/api/users/:_id/logs', (req, res) => {
   let { from, to } = req.query;
   const {limit} = req.query.limit *1 ;
 
- if (from ||to ){
-   from = formateDateFrom(new Date (from))
-   to = formateDateFrom(new date (to))
- }
+  if (from && to ){
+    if (from.toString() === 'Invalid Date'|| to.toString() === 'Invalid Date') {
+      return res.status(400).json({ error: 'Invalid date' });
+    }
+    from = formateDateFrom(new Date (from))
+    to = formateDateFrom(new date (to))
+  }else{
+    return res.status(400).json({ error: 'Missing Date' });
+  }
+  
 
   User.findById(userId).then(user => {
     if (!user){
