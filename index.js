@@ -91,9 +91,7 @@ app.get('/api/users/:_id/logs', async (req, res) => {
   try {
     const user = await User.findById(userId);
     
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+    if (!user) return res.status(404).json({ error: 'User not found' });
     
     let filteredExercises = user.exercises;
 
@@ -135,65 +133,6 @@ app.get('/api/users/:_id/logs', async (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-// app.get ('/api/users/:_id/logs', (req, res) => {
-//   const userId = req.params._id;
-//   let { from, to , limit} = req.query;
-
-//   User.findById(userId).then(user => {
-//     if (!user){
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-//     const exercises = user.exercises;
-//     let filteredExercises = []
-//     let sortedExercises =[]
-
-//     if (from && to){
-//       if (from.toString() === 'Invalid Date'|| to.toString() === 'Invalid Date') {
-//         return res.status(400).json({ error: 'Invalid date' });
-//       }
-//       from = formateDateFrom(new Date (from))
-//       to = formateDateFrom(new Date (to))
-//       filteredExercises = exercises.filter(exercise => {
-//         const exerciseDate = formateDateFrom( new Date(exercise.date));
-//         return exerciseDate >= from && exerciseDate <= to;
-//       })
-//       sortedExercises = filteredExercises.sort((a, b) => {
-//         return new Date(a.date) - new Date(b.date);
-//       })
-//       return res.json({
-//         _id: user._id,
-//         username: user.username,
-//         count: sortedExercises.length,
-//         log: sortedExercises
-//       });
-//     }
- 
-//     if (limit) {
-//       limit = limit *1
-//       const limitedExercises = sortedExercises.slice(0, limit);
-//       return res.json({
-//         _id: user._id,
-//         username: user.username,
-//         count: limitedExercises.length,
-//         log: limitedExercises
-//       });
-//     }
-//     return res.json({
-//       _id: user._id,
-//       username: user.username,
-//       count: exercises.length,
-//       log: exercises
-//     });
-//   })
-// })
-
-// function formateDateFrom(date) {
-//   const year = date.getFullYear();
-//   const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
-//   const day = String(date.getDate()).padStart(2, '0');
-//   return `${year}-${month}-${day}`;
-// }
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
