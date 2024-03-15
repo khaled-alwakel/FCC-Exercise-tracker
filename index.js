@@ -95,7 +95,7 @@ app.get ('/api/users/:_id/logs', (req, res) => {
       return res.status(400).json({ error: 'Invalid date' });
     }
     from = formateDateFrom(new Date (from))
-    to = formateDateFrom(new date (to))
+    to = formateDateFrom(new Date (to))
   }else{
     return res.status(400).json({ error: 'Missing Date' });
   }
