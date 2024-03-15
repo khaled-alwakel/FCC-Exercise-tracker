@@ -93,7 +93,6 @@ app.get ('/api/users/:_id/logs', (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
     const exercises = user.exercises;
-
     let filteredExercises = []
     let sortedExercises =[]
 
@@ -134,7 +133,7 @@ app.get ('/api/users/:_id/logs', (req, res) => {
       count: exercises.length,
       log: exercises
     });
-})
+  })
 })
 
 function formateDateFrom(date) {
