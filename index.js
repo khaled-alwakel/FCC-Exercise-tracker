@@ -85,16 +85,19 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 
 })
 app.get ('/api/users/:_id/logs', (req, res) => {
-  
-
   const { _id } = req.params;
   const userId = _id;
   let { from, to } = req.query;
-  const {limit} = req.query.limit *1 
+  const {limit} = req.query.limit *1 ;
+
+  let ormattedFromDate = undefined;
+  let formateDateFrom = undefined 
+ if (from ||to ){
   let fromDate = new Date (from)
   let toDate = new Date (to)
-  let formattedFromDate = formateDateFrom(fromDate)
-  let formattedToDate = formateDateFrom(toDate)
+   formattedFromDate = formateDateFrom(fromDate)
+   formattedFromDate formattedToDate = formateDateFrom(toDate)
+ }
 
   User.findById(userId).then(user => {
     if (!user){
@@ -128,18 +131,15 @@ app.get ('/api/users/:_id/logs', (req, res) => {
     }
     
   })
-
 })
+
 function formateDateFrom(date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 }
+
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
 })
-
-
-
-// 65e8d2df914a66eb22cde980
