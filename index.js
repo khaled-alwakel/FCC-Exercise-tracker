@@ -96,6 +96,7 @@ app.get ('/api/users/:_id/logs', (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
     const exercises = user.exercises;
+    
     let filteredExercises = []
     let sortedExercises =[]
 
@@ -112,7 +113,7 @@ app.get ('/api/users/:_id/logs', (req, res) => {
       sortedExercises = filteredExercises.sort((a, b) => {
         return new Date(a.date) - new Date(b.date);
       })
-      res.json({
+      return res.json({
         _id: user._id,
         username: user.username,
         count: sortedExercises.length,
