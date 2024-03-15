@@ -88,29 +88,38 @@ app.get ('/api/users/:_id/logs', (req, res) => {
   const { _id } = req.params;
   const userId = _id;
   let { from, to } = req.query;
-  
   const {limit} = req.query.limit *1 ;
 
-    if (from.toString() === 'Invalid Date'|| to.toString() === 'Invalid Date') {
-      return res.status(400).json({ error: 'Invalid date' });
-    }
-    from = formateDateFrom(new Date (from))
-    to = formateDateFrom(new Date (to))
- 
-  
+
   User.findById(userId).then(user => {
     if (!user){
       return res.status(404).json({ error: 'User not found' });
     }
     const exercises = user.exercises;
-     
-    const filteredExercises = exercises.filter(exercise => {
-      const exerciseDate = formateDateFrom( new Date(exercise.date));
-      return exerciseDate >= from && exerciseDate <= to;
-    })
-    const sortedExercises = filteredExercises.sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
-    })
+    let filteredExercises = []
+    let sortedExercises =[]
+
+    if (from && to){
+      if (from.toString() === 'Invalid Date'|| to.toString() === 'Invalid Date') {
+        return res.status(400).json({ error: 'Invalid date' });
+      }
+      from = formateDateFrom(new Date (from))
+      to = formateDateFrom(new Date (to))
+      filteredExercises = exercises.filter(exercise => {
+        const exerciseDate = formateDateFrom( new Date(exercise.date));
+        return exerciseDate >= from && exerciseDate <= to;
+      })
+      sortedExercises = filteredExercises.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      })
+      res.json({
+        _id: user._id,
+        username: user.username,
+        count: sortedExercises.length,
+        log: sortedExercises
+      });
+    }
+ 
     if (limit) {
       const limitedExercises = sortedExercises.slice(0, limit);
       res.json({
@@ -120,16 +129,13 @@ app.get ('/api/users/:_id/logs', (req, res) => {
         log: limitedExercises
       });
     }
-    else {
-      res.json({
-        _id: user._id,
-        username: user.username,
-        count: exercises.length,
-        log: exercises
-      });
-    }
-    
-  })
+    res.json({
+      _id: user._id,
+      username: user.username,
+      count: exercises.length,
+      log: exercises
+    });
+})
 })
 
 function formateDateFrom(date) {
