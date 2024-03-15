@@ -90,13 +90,9 @@ app.get ('/api/users/:_id/logs', (req, res) => {
   let { from, to } = req.query;
   const {limit} = req.query.limit *1 ;
 
-  let ormattedFromDate = undefined;
-  let formateDateFrom = undefined 
  if (from ||to ){
-  let fromDate = new Date (from)
-  let toDate = new Date (to)
-   formattedFromDate = formateDateFrom(fromDate)
-   formattedFromDate formattedToDate = formateDateFrom(toDate)
+   from = formateDateFrom(new Date (from))
+   to = formateDateFrom(new date (to))
  }
 
   User.findById(userId).then(user => {
@@ -106,8 +102,8 @@ app.get ('/api/users/:_id/logs', (req, res) => {
     const exercises = user.exercises;
      
     const filteredExercises = exercises.filter(exercise => {
-      const exerciseDate = new Date(exercise.date);
-      return exerciseDate >= formattedFromDate && exerciseDate <= formattedToDate;
+      const exerciseDate = formateDateFrom( new Date(exercise.date));
+      return exerciseDate >= from && exerciseDate <= to;
     })
     const sortedExercises = filteredExercises.sort((a, b) => {
       return new Date(a.date) - new Date(b.date);
