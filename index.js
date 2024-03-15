@@ -87,16 +87,13 @@ app.post('/api/users/:_id/exercises', (req, res) => {
 app.get ('/api/users/:_id/logs', (req, res) => {
   const { _id } = req.params;
   const userId = _id;
-  let { from, to } = req.query;
-  const {limit} = req.query.limit *1 ;
-
-
+  let { from, to , limit} = req.query;
   User.findById(userId).then(user => {
     if (!user){
       return res.status(404).json({ error: 'User not found' });
     }
     const exercises = user.exercises;
-    
+
     let filteredExercises = []
     let sortedExercises =[]
 
@@ -122,6 +119,7 @@ app.get ('/api/users/:_id/logs', (req, res) => {
     }
  
     if (limit) {
+      limit = limit *1
       const limitedExercises = sortedExercises.slice(0, limit);
       res.json({
         _id: user._id,
