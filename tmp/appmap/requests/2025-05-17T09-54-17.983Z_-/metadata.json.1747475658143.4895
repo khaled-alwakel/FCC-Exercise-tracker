@@ -1,0 +1,18 @@
+{
+  "client": {
+    "name": "appmap-node",
+    "version": "2.24.3",
+    "url": "https://github.com/getappmap/appmap-node"
+  },
+  "language": {
+    "name": "javascript",
+    "engine": "Node.js",
+    "version": "v22.13.0"
+  },
+  "app": "fcc-exercise-tracker",
+  "recorder": {
+    "type": "requests",
+    "name": "requests"
+  },
+  "name": "GET / (200) — 2025-05-17T09:54:17.983Z"
+}

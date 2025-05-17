@@ -1,0 +1,7 @@
+[
+  {
+    "route": "GET /style.css",
+    "parameters": "()",
+    "status": 200
+  }
+]
